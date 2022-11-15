@@ -13,7 +13,7 @@ block content
             p#player2 Player2
             button#changeP2Name.glow-on-hover Change Name
             script.
-              $('#changeP2Name').on('click', changePlayer2Name)
+              $('#changeP2Name').on('click', changePlayer2Name);
           .float-right
             p#player2Score Score: 0
         #myBoard
@@ -29,11 +29,12 @@ block content
         var game = new Chess();
         var board = Chessboard('myBoard', config);
         $('document').ready(piecesInitStart());
+        $(window).resize(board.resize);
       .butt
         #div1
           #themebox
             #themebox-inner 
-              label(for='pieceTheme', style="margin-right:20px;") Choose a Theme:   
+              label(for='pieceTheme', style="margin-right:20px; height: 15px; float: right;") Theme:   
               select#pieceTheme(name='pieceTheme')
                 option(value='Default') Default
                 option(value='maestro_bw') maestro_bw
