@@ -7,6 +7,3 @@ This is a chess game with additional rules. While this chess game pieces should 
 https://github.com/jhlywa/chess.js
 - Chessboard.js 
 https://chessboardjs.com/
-
-## Getting Start
-Clone and open index.html in a browser.
