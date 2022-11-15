@@ -1,0 +1,112 @@
+extends layout
+
+block content
+  section.topnav
+      a.active(href='#home') Home
+      a(href='#about') About
+    #topBar
+    main
+      // Chess game
+      #chessboard
+        .playerName
+          .nameChange(style="margin-bottom: 30px;")
+            p#player2 Player2
+            button#changeP2Name.glow-on-hover Change Name
+            script.
+              $('#changeP2Name').on('click', changePlayer2Name)
+          .float-right
+            p#player2Score Score: 0
+        #myBoard
+        .playerName
+          .nameChange
+            p#player1 Player1
+            button#changeP1Name.glow-on-hover Change Name
+            script.
+              $('#changeP1Name').on('click', changePlayer1Name)
+          .float-right
+            p#player1Score Score: 0
+      script.
+        var game = new Chess();
+        var board = Chessboard('myBoard', config);
+        $('document').ready(piecesInitStart());
+      .butt
+        #div1
+          #themebox
+            #themebox-inner 
+              label(for='pieceTheme', style="margin-right:20px;") Choose a Theme:   
+              select#pieceTheme(name='pieceTheme')
+                option(value='Default') Default
+                option(value='maestro_bw') maestro_bw
+                option(value='Kbyte') 1 Kbyte Gambit
+                option(value='kaneo_midnight') Kaneo Midnight
+                option(value='sittuyin') Sittuyin
+            button#changeTheme.glow-on-hover Load Theme
+            script.
+              $('#changeTheme').on('click', changeTheme)
+          #div2
+            label.label-threshold(for='Mthreshold') Morale Threshold: 
+            input#Mthreshold(type='text', name='Mthreshold')
+            br
+            br
+            label.label-threshold(for='Athreshold') Allegiance Threshold: 
+            input#Athreshold(type='text', name='Athreshold')
+            br
+            br
+            button#submit.glow-on-hover(style="width: 50px; height: 25px;") ENTER
+            script.
+              $('#submit').on('click', changeThreshold)
+          #MoraleShow.attibute
+            | Morale Threshold: 15
+          #AllegianceShow.attibute
+            | Allegiance Threshold: 30
+          #GameCount.attibute
+            | Game: 1
+          #Message.attibute
+        #div3
+          button#flipOrientationBtn.glow-on-hover Change side
+          script.
+            $('#flipOrientationBtn').on('click', changeSide)
+          button#setStartBtn.glow-on-hover Restart
+          script.
+            $('#setStartBtn').on('click', function () {
+            piecesInitStart();
+            removeGreySquares();
+            board.start(false);
+            game.reset();
+            $('#againstRandom').show();
+            $('#flipOrientationBtn').show();
+            $('#submit').show();
+            $('#resetScore').show();
+            changePlayerScore();
+            document.getElementById("Message").innerHTML = '';
+            })
+          button#resetScore.glow-on-hover Reset Score
+          script.
+            $('#resetScore').on('click', resetScore)
+          button#againstRandom.glow-on-hover Against Random Computer
+          script.
+            $('#againstRandom').on('click', function() {
+            if (game.fen() === initialFen)
+            {
+            if (player2Color === 'w')
+            {
+            window.setTimeout(makeRandomMove, 1000)
+            }
+            }
+            if (randomComputer === false)
+            {
+            $('#changeP2Name').hide();
+            document.getElementById("player2").innerHTML = "Random Computer";
+            randomComputer = true;
+            } else {
+            $('#changeP2Name').show();
+            document.getElementById("player2").innerHTML = "Player2";
+            randomComputer = false;
+            }
+            })
+    footer
+      .whiteFont
+        label Status:
+        #status
+        label FEN:
+        #fen
